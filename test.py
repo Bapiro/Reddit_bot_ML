@@ -5,6 +5,7 @@ import sys
 
 from summa import keywords
 from summa.summarizer import summarize
+from cos_similarity import *
 
 # Markov Chains
 
@@ -12,17 +13,17 @@ from summa.summarizer import summarize
 def read_file():
     with open('data.json', encoding='utf-8') as f:
         data = json.load(f)
-    titles = ""
+    titles = []
     # for i in range(10):
     #    test = data[i]["postTitle"]
     #    titles += " " + test
 
-    for i in range(1):
-        comments = data[i]["bestcomment"]
-        for comment in comments:
-            titles += " " + comment
+    for i in range(10):
+        titles.append(data[i]["postTitle"])
+        #for comment in comments:
+        #    titles += " " + comment
 
-    titles = titles.replace('\n\n', '')
+    #titles = titles.replace('\n\n', '')
     print(titles)
     return titles
 
@@ -70,7 +71,13 @@ def write_file(message):
 
 if __name__ == '__main__':
     message = read_file()
-    textrank(message)
+    #user_input = input()
+    #user_input = "If a movie was made about your life, what would the title be?"
+    user_input = "What should I do if I get robbed?"
+    message.append(user_input)
+    answer = similarity(user_input, message)
+    print(answer)
+    #textrank(message)
     #chain = build_chain(message)
     #message = generate_message(chain)
     # write_file(message)

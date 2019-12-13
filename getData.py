@@ -6,14 +6,14 @@ my_reddit = praw.Reddit(client_id=reddit_client_id,
                         client_secret=reddit_client_secret, user_agent=reddit_user_agent)
 
 # choose subreddit and how many postsposts
-sub_name = 'askreddit'
-max_posts = 500
+sub_name = 'ifyoulikeblank'
+max_posts = 10000
 output = []
 
 i = 0
 
 # get the chosen amount of hot posts from subreddit
-for submission in my_reddit.subreddit(sub_name).hot(limit=max_posts):
+for submission in my_reddit.subreddit(sub_name).top(limit=max_posts):
     i += 1
     # print("---")
     #print("title:" + submission.title)
@@ -26,9 +26,9 @@ for submission in my_reddit.subreddit(sub_name).hot(limit=max_posts):
         if(len(submission.comments) > comment):
             if (hasattr(submission.comments[comment], "body") and submission.comments[comment].distinguished == None):
                 top_comments.append(submission.comments[comment].body)
-    #print("-" + top_comments)
+    #print("-" + submission.selftext)
     datapost = {"id": i,
-                "post": "test",
+                "post": submission.selftext,
                 "postTitle": submission.title,
                 "bestcomment": top_comments}
     output.append(datapost)
